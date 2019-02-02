@@ -1,0 +1,84 @@
+<html>
+  <head>
+  <script src="AJavaScriptProgram.js" ></script>
+  <script type="text/javascript">
+    var ship; 
+    var left = 10;
+    var topp = 10;
+    var steps = 0;
+
+    function initialize() {
+      var divv = document.getElementById('ship');
+      ship = new Ship(left, top, divv);
+    }
+
+    function changeDoot(color, button) {
+      var button = document.getElementById(button);
+      var count = document.getElementById('count');
+      button.style.backgroundColor = color;
+      button.disabled = true;
+      steps += 1
+      count.innerText = steps;
+    }
+
+    function aVoyage() {
+      var divv = document.getElementById('ship');
+      var pAX = document.getElementById('pointaX').valueAsNumber;
+      var pAY = document.getElementById('pointaY').valueAsNumber;
+      var pBX = document.getElementById('pointbX').valueAsNumber;
+      var pBY = document.getElementById('pointbY').valueAsNumber;
+      let pA = new Location(pAX, pAY);
+      let pB = new Location(pBX, pBY);
+      ship.sail(pA, pB);
+      left = divv.style.left;
+      topp = divv.style.top;
+    }
+
+    function waypoint() {
+      var divv = document.getElementById('ship');
+      var pBX = document.getElementById('pointbX').valueAsNumber;
+      var pBY = document.getElementById('pointbY').valueAsNumber;
+      divv.style.left = left;
+      divv.style.top = topp;
+      let pB = new Location(pBX, pBY);
+      ship.goToWaypoint(pB);
+    }
+
+    function reset() {
+      if (ship.checkDestination()) {
+        var object = document.getElementById('ship');
+        var doot = document.getElementById('doot');
+        var reset = document.getElementById('reset');
+        doot.disabled = false;
+        reset.style.backgroundColor = 'red';
+        doot.style.backgroundColor = 'blue';
+        object.style.left = 10;
+        object.style.top = 10;
+      }
+    }
+
+    function enable(button) {
+      var b = document.getElementById(button);
+      b.disabled = false;
+    }
+
+  </script>
+  </head>
+  <body style="background-image:url(Space.jpg);" onload="initialize()">
+  <p style="color: white;">Point A
+  <form style="color:white;"> X: <input type="number" id="pointaX" value="10"> Y: <input type="number" id="pointaY" value="10"></form>
+  </p>
+  <p style="color:white;">Point B
+  <form style="color:white;"> X: <input type="number" id="pointbX" value="100"> Y: <input type="number" id="pointbY" value="100"></form>
+  </p>
+
+  <button id="doot" style="background-color:dodgerblue; color: whitesmoke;" onclick="changeDoot('green', 'doot'); aVoyage();"><b>Start</b></button>
+  <button id="waypoint" style="background-color: yellow; color: black;" onclick="waypoint();"><b>Waypoint</b></button>
+  <button id="reset" style="background-color: red; color: white;" onclick="reset();">Reset</button>
+
+  <div id="ship" style="position: relative; left: 10; top: 10; height: 30px; width: 30px; background-color: white;" ></div>
+  <div id="count" style="position: relative; left: 500px; top: -150px; width: 30px; border-color: gray; background-color: white;"></div>
+  
+  
+  </body>
+</html>
